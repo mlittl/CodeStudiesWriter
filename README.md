@@ -12,15 +12,16 @@ Before running this script, ensure you have Python installed on your system. Add
     bash
 
     pip install requests
+    pip install ollama
+    ollama run openhermes (OR ANY MODEL OF YOUR CHOOSING)
 
 ## Usage
 
 To use this script, follow these steps:
 
-    Prepare Your Code File: Have the Python file (second.py in this example) ready in a specified location.
-    Set the File Path: Modify the file_path variable in the script to point to your Python file.
-    Run the Script: Execute the script. It will read your Python file, send its contents to a predefined API endpoint, and receive a response summarizing the learning outcomes.
-    View the Output: The script generates a README file (<base_name>_Learnings_README.md) containing the summarized learning outcomes.
+    Prepare Your Code File: Have the Python file ready to be read.
+    Run the Script: Execute the script. It will read your Python file that you select via the GUI, send its contents to a predefined API endpoint, and receive a response summarizing the learning outcomes.
+    View the Output: The script generates a README file (<base_name>_Learnings_README.md) containing the summarized learning outcomes. It will be in the same directory of this script.
 
 ## How It Works
 
