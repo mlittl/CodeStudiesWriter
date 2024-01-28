@@ -1,5 +1,6 @@
 import os
 import json
+from tkinter import messagebox
 import requests
 import tkinter as tk
 from tkinter import filedialog
@@ -41,16 +42,33 @@ def parse_response(response):
     response_lines = response.text.split('\n')
     message_contents = ""
     for line in response_lines:
-        if line:
-            message = json.loads(line)
-            message_contents += message['message']['content']
+        try:
+            if line:
+                message = json.loads(line)
+                message_contents += message['message']['content']
+        except Exception: 
+            root = tk.Tk()
+            root.withdraw()
+            messagebox.showinfo("Error parsing the file","Do you have the correct local LLM downloaded?")
+            exit()
     return message_contents
 
 def write_readme(file_path, message_contents):
     """Write the message contents to a README file."""
     base_name = os.path.splitext(os.path.basename(file_path))[0]
-    with open(f'{base_name}_Learnings_README.md', 'w') as file:
+    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    readme_path = os.path.join(desktop_path, f'{base_name}_learnings_README.md')
+    with open(readme_path, 'w') as file:
         file.write(message_contents)
+    return readme_path
+
+def success_message(readme_path):
+    # Create a root Tk window and hide it
+    root = tk.Tk()
+    root.withdraw()
+
+    # Show a success message
+    messagebox.showinfo("Success", f"The README file has been successfully created at {readme_path}.")
 
 def main():
     """Main function to run the program."""
@@ -60,7 +78,8 @@ def main():
     check_server(url)
     response = send_request(url, file_contents)
     message_contents = parse_response(response)
-    write_readme(file_path, message_contents)
+    readme_path = write_readme(file_path, message_contents)
+    success_message(readme_path)
 
 if __name__ == "__main__":
     main()
