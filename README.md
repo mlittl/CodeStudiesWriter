@@ -7,13 +7,13 @@ This is a Python script designed to facilitate the documentation of learning out
 Before running this script, ensure you have Python installed on your system. Additionally, the script requires the requests library for sending HTTP requests and the json library for handling JSON data. Follow these steps to set up the environment:
 
     Install Python: Download and install Python from python.org.
+    Download and install Ollama ([https://ollama.ai/download](https://ollama.ai/download))
     Install Required Libraries: Run the following command to install the necessary libraries:
 
     bash
 
-    pip install requests
-    pip install ollama
-    ollama run openhermes (OR ANY MODEL OF YOUR CHOOSING)
+    1. pip install requests
+    2. Test the ollama install by running "ollama run openhermes" in terminal (WORKS FOR [ANY MODEL](https://ollama.ai/library) OF YOUR CHOOSING)
 
 ## Usage
 
