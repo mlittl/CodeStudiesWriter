@@ -1,9 +1,12 @@
 import os
 import json
-from tkinter import messagebox
-import requests
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
+import requests
+
+# Constants
+URL = "http://localhost:11434/api/chat"
+DESKTOP_PATH = os.path.join(os.path.expanduser("~"), "Desktop")
 
 def select_file():
     """Prompt the user to select a file using a file dialog."""
@@ -42,41 +45,37 @@ def parse_response(response):
     response_lines = response.text.split('\n')
     message_contents = ""
     for line in response_lines:
-        try:
-            if line:
+        if line:
+            try:
                 message = json.loads(line)
                 message_contents += message['message']['content']
-        except Exception: 
-            root = tk.Tk()
-            root.withdraw()
-            messagebox.showinfo("Error parsing the file","Do you have the correct local LLM downloaded?")
-            exit()
+            except KeyError:
+                root = tk.Tk()
+                root.withdraw()
+                messagebox.showinfo("Error parsing the file","Do you have the correct local LLM downloaded?")
+                exit()
     return message_contents
 
 def write_readme(file_path, message_contents):
     """Write the message contents to a README file."""
     base_name = os.path.splitext(os.path.basename(file_path))[0]
-    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    readme_path = os.path.join(desktop_path, f'{base_name}_learnings_README.md')
+    readme_path = os.path.join(DESKTOP_PATH, f'{base_name}_learnings_README.md')
     with open(readme_path, 'w') as file:
         file.write(message_contents)
     return readme_path
 
 def success_message(readme_path):
-    # Create a root Tk window and hide it
+    """Show a success message."""
     root = tk.Tk()
     root.withdraw()
-
-    # Show a success message
     messagebox.showinfo("Success", f"The README file has been successfully created at {readme_path}.")
 
 def main():
     """Main function to run the program."""
     file_path = select_file()
     file_contents = read_file(file_path)
-    url = "http://localhost:11434/api/chat"
-    check_server(url)
-    response = send_request(url, file_contents)
+    check_server(URL)
+    response = send_request(URL, file_contents)
     message_contents = parse_response(response)
     readme_path = write_readme(file_path, message_contents)
     success_message(readme_path)
