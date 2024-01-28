@@ -2,7 +2,7 @@
 ## Introduction
 This is a Python script designed to facilitate the documentation of learning outcomes from coding experiences. The primary objective of this script is to assist users in summarizing and reflecting on their coding journey, specifically focusing on how their skillset has evolved. This tool aims to capture the essence of learning through code, providing a unique perspective that mimics a human-like understanding and articulation of the learning process.
 
-Test
+Testing
 
 ## Installation
 
