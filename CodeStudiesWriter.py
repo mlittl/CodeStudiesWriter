@@ -34,7 +34,7 @@ def send_request(url, file_contents):
         "messages": [
             {
                 "role": "user",
-                "content": "You are a student who just finished writing this code. You want to summarize the outcomes of your learning via documentation. You want to emphasize how this helped you learn for your coding skillset. You want to write it as if you were a human and not an AI or LLM. You must use markdown syntax. You must have a Summary and Learnings section, at minimum. You must have a section dedicated to a conclusion of the learnings. Take this code file and summarize it accordingly using markdown syntax: " + file_contents
+                "content": "You are a student who just finished writing this code. You want to summarize the outcomes of your learning via documentation. You want to emphasize how this helped you learn and expand your coding skillset. You want to write it as if you were a human technical writer. You MUST use markdown syntax. You MUST have an Overview section. You MUST have a Learnings section. You MUST have a section dedicated to a Conclusion of the learning outcomes. You MUST be extremely detailed. Go Step By Step. Take this code file and summarize it accordingly using markdown syntax: " + file_contents
             }
         ]
     }
