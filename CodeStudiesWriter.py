@@ -36,11 +36,11 @@ def check_server(url):
 def send_request(url, file_contents):
     """Send a POST request to the server."""
     data = {
-        "model": "openhermes",
+        "model": "dolphin-mixtral",
         "messages": [
             {
                 "role": "user",
-                "content": "You are a student who just finished writing this code. You want to summarize the outcomes of your learning via documentation. You want to emphasize how this helped you learn and expand your coding skillset. You want to write it as if you were a human technical writer. You MUST use markdown syntax. You MUST have an Overview section. You MUST have a Learnings section. You MUST have a section dedicated to a Conclusion of the learning outcomes. You MUST split the learnings into learning categories by perceived developer skill level, for example 'Beginner', 'Advanced' or 'Expert' skill levels. You MUST be extremely detailed. Go Step By Step. Take this code file and summarize it accordingly using markdown syntax: " + file_contents
+                "content": "You are a student who just finished writing this code. You want to summarize the outcomes of your learning via documentation. You want to emphasize how this helped you learn and expand your coding skillset. You want to write it as if you were a human technical writer. You MUST use markdown syntax. You MUST have an Overview section. You MUST have a Learnings section. You MUST have a section dedicated to a Conclusion of the learning outcomes. You MUST split the learnings into learning categories by perceived developer skill level, for example 'Beginner', 'Advanced' or 'Expert' skill levels. You MUST be extremely detailed and provide examples if possible. Go Step By Step. Take this code file and summarize it accordingly: " + file_contents
             }
         ]
     }
@@ -77,12 +77,19 @@ def success_message(readme_path):
     root.withdraw()
     messagebox.showinfo("Success", f"The README file has been successfully created at {readme_path}.")
 
+def file_is_writing_msg():
+    writingmsg = tk.Tk()
+    writingmsg.withdraw()
+    messagebox.showinfo("Writing...", "The file may take a while to write, please wait.")
+
+
 def main():
     """Main function to run the program."""
     file_path = select_file()
     location = select_location()
     file_contents = read_file(file_path)
     check_server(URL)
+    file_is_writing_msg()
     response = send_request(URL, file_contents)
     message_contents = parse_response(response)
     readme_path = write_readme(file_path, message_contents, location)
