@@ -14,6 +14,12 @@ def select_file():
     root.withdraw()
     return filedialog.askopenfilename()
 
+def select_location():
+    """Prompt the user to select a directory using a directory dialog."""
+    root = tk.Tk()
+    root.withdraw()
+    return filedialog.askdirectory()
+
 def read_file(file_path):
     """Read the contents of a file."""
     with open(file_path, 'r') as file:
@@ -56,13 +62,14 @@ def parse_response(response):
                 exit()
     return message_contents
 
-def write_readme(file_path, message_contents):
+def write_readme(file_path, message_contents, location):
     """Write the message contents to a README file."""
     base_name = os.path.splitext(os.path.basename(file_path))[0]
-    readme_path = os.path.join(DESKTOP_PATH, f'{base_name}_learnings_README.md')
+    readme_path = os.path.join(location, f'{base_name}_learnings_README.md')
     with open(readme_path, 'w') as file:
         file.write(message_contents)
     return readme_path
+
 
 def success_message(readme_path):
     """Show a success message."""
@@ -73,11 +80,12 @@ def success_message(readme_path):
 def main():
     """Main function to run the program."""
     file_path = select_file()
+    location = select_location()
     file_contents = read_file(file_path)
     check_server(URL)
     response = send_request(URL, file_contents)
     message_contents = parse_response(response)
-    readme_path = write_readme(file_path, message_contents)
+    readme_path = write_readme(file_path, message_contents, location)
     success_message(readme_path)
 
 if __name__ == "__main__":
